@@ -178,7 +178,10 @@ fileprivate extension MenuContainerViewController {
         if menuViewController == nil {
             fatalError("Invalid `menuViewController` value. It should not be nil")
         }
-        present(menuViewController, animated: true, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            guard let menuViewController = self?.menuViewController else { return }
+            self?.present(menuViewController, animated: true, completion: nil)
+        }
         isShown = true
     }
 
@@ -186,7 +189,9 @@ fileprivate extension MenuContainerViewController {
      Dismisses left side menu.
      */
     func dismissNavigationMenu() {
-        self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
         isShown = false
     }
 }
